@@ -3,6 +3,8 @@ WP Robots Txt
 
 This is a *single serving* plugin that adds a field on the Privacy Settings WordPress admin page which allows you to edit your `robots.txt` file contents.
 
+[WP Robots Txt](https://github.com/chrisguitarguy/WP-Robots-Txt/raw/master/screenshot-1.png)
+
 Limitations
 -----------
 
