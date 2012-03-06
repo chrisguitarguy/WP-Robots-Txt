@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WP Robots Txt
-Plugin URI: http://github.com/chrisguitarguy/wp-robots-text
+Plugin URI: https://github.com/chrisguitarguy/WP-Robots-Txt
 Description: Edit your robots.txt file from the WordPress admin
 Version: 1.0
 Author: Christopher Davis
