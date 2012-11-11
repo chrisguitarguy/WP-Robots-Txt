@@ -30,17 +30,24 @@ class CD_RDTE_Admin_Page
     function settings()
     {
         register_setting(
-            'privacy', 
+            'reading', 
             $this->setting,
             array( &$this, 'clean_setting' )
+        );
+
+        add_settings_section(
+            'robots-txt',
+            __('Robots.txt Content', 'wp-robots-txt'),
+            '__return_false',
+            'reading'
         );
         
         add_settings_field(
             'cd_rdte_robots_content',
             __( 'Robots.txt Content', 'wp-robots-txt' ),
             array( &$this, 'field' ),
-            'privacy',
-            'default',
+            'reading',
+            'robots-txt',
             array( 'lable_for' => 'cd_crte_text' )
         );
     }
