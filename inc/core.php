@@ -1,13 +1,6 @@
 <?php
 /**
- * Plugin Name: WP Robots Txt
- * Plugin URI: https://github.com/chrisguitarguy/WP-Robots-Txt
- * Description: Edit your robots.txt file from the WordPress admin
- * Version: 1.1
- * Text Domain: wp-robots-txt
- * Author: Christopher Davis
- * Author URI: http://christopherdavis.me
- * License: GPL-2.0+
+ * WP Robots Txt
  *
  * Copyright 2013 Christopher Davis <http://christopherdavis.me>
  *
@@ -30,16 +23,45 @@
  * @license     http://opensource.org/licenses/GPL-2.0 GPL-2.0+
  */
 
-!defined('ABSPATH') && exit;
+/**
+ * Makes the magic happen.  Get our saved robots.txt file and, if there's
+ * something there replace WP's default robots file.
+ * 
+ * @since   1.0
+ * @uses    get_option
+ * @uses    esc_attr
+ * @return  string
+ */
+function cd_rdte_filter_robots($rv, $public)
+{
+    $content = get_option('cd_rdte_content');
+    if ($content) {
+        $rv = esc_attr(strip_tags($content));
+    }
 
-define('WP_ROBOTS_TXT_DIR', plugin_dir_path(__FILE__));
-
-require_once WP_ROBOTS_TXT_DIR . 'inc/core.php';
-if (is_admin()) {
-    require_once WP_ROBOTS_TXT_DIR . 'inc/options-page.php';
-    CD_RDTE_Admin_Page::init();
+    return $rv;
 }
 
-add_filter('robots_txt', 'cd_rdte_filter_robots', 10, 2);
-register_activation_hook(__FILE__, 'cd_rdte_activation');
-register_deactivation_hook(__FILE__, 'cd_rdte_deactivation');
+/**
+ * Deactivation hook. Deletes our option containing the robots.txt content
+ * 
+ * @since   1.0
+ * @uses    delete_option
+ * @return  void
+ */
+function cd_rdte_deactivation()
+{
+    delete_option('cd_rdte_content');
+}
+
+/**
+ * Activation hook.  Adds the option we'll be uses
+ * 
+ * @since   1.0
+ * @uses    add_option
+ * @return  void
+ */
+function cd_rdte_activation()
+{
+    add_option('cd_rdte_content', false);
+}
