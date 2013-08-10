@@ -33,3 +33,8 @@ Changelog
 **1.0**
 
 - Initial version
+
+**1.1**
+
+- Cleaned up code
+- Moved to the settings field to the reading area
