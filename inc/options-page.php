@@ -103,7 +103,7 @@ class CD_RDTE_Admin_Page
     public function field()
     {
          $public = get_option('blog_public');
-         $notpublicmsg = 'Not using the settings above. Using deault as shown below. Uncheck the Discourage checkbox above to use the settings. Make sure you do not have a physical robots.txt in your web root.';
+         $notpublicmsg = 'Not using the settings above. Using default as shown below. Uncheck the Discourage checkbox above to use the settings above.<br/> Make sure you do not have a physical robots.txt in your web root.';
          $bottom_message =  '';
          
          $content = get_option($this->setting);
@@ -117,7 +117,7 @@ class CD_RDTE_Admin_Page
              $content = $this->getDefaultRobots();
              $bottom_message .= '<label style="color:#f00;font-weight:bold">';
              if ($public) {
-                 $bottom_message .= 'You must Save Changes to make sure overrides above are taken.';
+                 $bottom_message .= 'You must Save Changes to make overrides above active.<br/>It is OK to not save, but the Wordpress default below will be your active robots.txt';
              } else {
                  $bottom_message .= $notpublicmsg;
              }
