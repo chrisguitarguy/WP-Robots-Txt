@@ -3,7 +3,7 @@ WP Robots Txt
 
 This is a *single serving* plugin that adds a field on the Settings->Reading WordPress admin page which allows you to edit your `robots.txt` file contents.
 
-![WP Robots Txt](WP-Robots-Txt/raw/master/screenshot-1.png)
+![WP Robots Txt](../../raw/master/screenshot-1.png)
 
 Limitations
 -----------
