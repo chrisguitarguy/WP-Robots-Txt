@@ -35,7 +35,8 @@
 function cd_rdte_filter_robots($rv, $public)
 {
     $content = get_option('cd_rdte_content');
-    if ($content) {
+    $public = get_option('blog_public');
+    if ($content && $public) {
         $rv = esc_attr(strip_tags($content));
     }
 
