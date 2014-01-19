@@ -76,7 +76,7 @@ class CD_RDTE_Admin_Page
 
         add_settings_section(
             'robots-txt',
-            __('Robots.txt Content', 'wp-robots-txt'),
+            __('Robots.txt Settings', 'wp-robots-txt'),
             '__return_false',
             'reading'
         );
@@ -102,20 +102,38 @@ class CD_RDTE_Admin_Page
      */
     public function field()
     {
-        $content = get_option($this->setting);
-        if (!$content) {
-            $content = $this->getDefaultRobots();
-        }
+         $public = get_option('blog_public');
+         $notpublicmsg = 'Not using the settings above. Using deault as shown below. Uncheck the Discourage checkbox above to use the settings. Make sure you do not have a physical robots.txt in your web root.';
+         $bottom_message =  '';
+         
+         $content = get_option($this->setting);
+         if ($content) {
+             if ($public) {
+                 $bottom_message .=  'The content of your robots.txt file.  Clear contents above and save to restore the default.';
+             } else {
+                 $bottom_message .= $notpublicmsg;
+             }
+         } else {
+             $content = $this->getDefaultRobots();
+             $bottom_message .= '<label style="color:#f00;font-weight:bold">';
+             if ($public) {
+                 $bottom_message .= 'You must Save Changes to make sure overrides above are taken.';
+             } else {
+                 $bottom_message .= $notpublicmsg;
+             }
+             $bottom_message .= '</label>';
+         }
+         $bottom_message .= '<div><iframe src="/robots.txt" height="120px"></iframe></div>';
 
-        printf(
-            '<textarea name="%1$s" id="%1$s" rows="10" class="large-text">%2$s</textarea>',
-            esc_attr($this->setting),
-            esc_textarea($content)
-        );
+         printf(
+             '<textarea name="%1$s" id="%1$s" rows="10" class="large-text">%2$s</textarea>',
+             esc_attr($this->setting),
+             esc_textarea($content)
+         );
 
-        echo '<p class="description">';
-        _e('The content of your robots.txt file.  Delete the above and save to restore the default.', 'wp-robots-txt');
-        echo '</p>';
+         echo '<p class="description">';
+         _e($bottom_message , 'wp-robots-txt');
+         echo '</p>';
     }
 
     /**
@@ -155,12 +173,22 @@ class CD_RDTE_Admin_Page
         $public = get_option('blog_public');
 
         $output = "User-agent: *\n";
-        if ('0' == $public) {
+        if (!$public) {
             $output .= "Disallow: /\n";
         } else {
             $path = parse_url(site_url(), PHP_URL_PATH);
-            $output .= "Disallow: $path/wp-admin/\n";
+             $output .= "Disallow: $path/wp-admin/\n";
             $output .= "Disallow: $path/wp-includes/\n";
+
+            $contentpath = parse_url(content_url(), PHP_URL_PATH); // parse_url(WP_CONTENT_URL, PHP_URL_PATH);
+            if ($contentpath !== $path .'/wp-content/')
+                $output .= "Disallow: $path/wp-content/\n";
+            if ($contentpath !== '')
+                $output .= "Disallow: $contentpath/\n";
+           if (get_option('upload_url_path')) {
+                $mediapath = parse_url(get_option('upload_url_path'), PHP_URL_PATH);
+                $output .= "Allow: $mediapath/\n";
+            }
         }
 
         return $output;
