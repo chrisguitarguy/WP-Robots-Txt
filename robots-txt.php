@@ -33,6 +33,7 @@
 !defined('ABSPATH') && exit;
 
 define('WP_ROBOTS_TXT_DIR', plugin_dir_path(__FILE__));
+define('WP_ROBOTS_TXT_NAME', plugin_basename(__FILE__));
 
 require_once WP_ROBOTS_TXT_DIR . 'inc/core.php';
 if (is_admin()) {

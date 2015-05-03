@@ -54,8 +54,27 @@ class CD_RDTE_Admin_Page
     public static function init()
     {
         add_action('admin_init', array(self::instance(), 'settings'));
+        add_filter(sprintf('plugin_action_links_%s', WP_ROBOTS_TXT_NAME), array(static::instance(), 'showLink'));
     }
-    
+
+    /**
+     * Adds a link to the settings page in the plugin action links row.
+     *
+     * @since   1.2
+     * @param   array $links the set of plugin actions links
+     * @return  array
+     */
+    public function showLink($links)
+    {
+        $links[] = sprintf(
+            '<a href="%s">%s</a>',
+            admin_url('options-reading.php#wp-robots-txt-settings'),
+            __('Settings', 'wp-robots-txt')
+        );
+
+        return $links;
+    }
+
     /**
      * Registers our setting and takes care of adding the settings field
      * we need to edit our robots.txt file
@@ -77,7 +96,7 @@ class CD_RDTE_Admin_Page
         add_settings_section(
             'robots-txt',
             __('Robots.txt Content', 'wp-robots-txt'),
-            '__return_false',
+            array($this, 'printSectionAnchor'),
             'reading'
         );
 
@@ -118,6 +137,11 @@ class CD_RDTE_Admin_Page
         echo '</p>';
     }
 
+    public function printSectionAnchor()
+    {
+        echo '<a name="wp-robots-txt-settings"></a>';
+    }
+
     /**
      * Strips tags and escapes any html entities that goes into the 
      * robots.txt field
@@ -128,7 +152,7 @@ class CD_RDTE_Admin_Page
      */
     public function cleanSetting($in)
     {
-        if(empty($in)) {
+        if (empty($in)) {
             // TODO: why does this kill the default settings message?
             add_settings_error(
                 $this->setting,
