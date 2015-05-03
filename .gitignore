@@ -1,7 +1,7 @@
-.svn
-readme.txt
+/vendor/*
+composer.lock
 
-# ignore certain files
+*.pyc
 *.swp
 *.dmg
 *.gz
@@ -12,7 +12,6 @@ readme.txt
 *.zip
 *.7z
 
-# ignore compiled files
 *.com
 *.class
 *.dll
@@ -21,8 +20,6 @@ readme.txt
 *.o
 *.so
 
-
-# system files
 .DS_Store*
 ehthumbs.db
 Icon?

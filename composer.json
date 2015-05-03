@@ -1,0 +1,10 @@
+{
+    "name": "chrisguitarguy/wp-robots-txt",
+    "description": "Manage your robots.txt file from the WordPress admin",
+    "keywords": ["wordpress"],
+    "license": "MIT",
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">=5.3"
+    }
+}
